@@ -69,3 +69,352 @@
     </script>
 </body>
 </html>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тесты - Кредитный калькулятор</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.1.0/jasmine.css">
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .header {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .jasmine_html-reporter {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏦 Домашнее задание к лекции 1. «Основные понятия»</h1>
+            <p>Калькулятор ипотеки — <strong>8 тестов</strong></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateTotalMortgage(percent, contribution, amount, countMonths) {
+            const p = parseFloat(percent);
+            const c = parseFloat(contribution);
+            const a = parseFloat(amount);
+            const n = parseFloat(countMonths);
+            
+            if (isNaN(p) || isNaN(c) || isNaN(a) || isNaN(n)) {
+                return false;
+            }
+            
+            const loanBody = a - c;
+            if (loanBody <= 0) return 0;
+            
+            const monthlyRate = p / 100 / 12;
+            const monthlyPayment = loanBody * (monthlyRate + (monthlyRate / (Math.pow(1 + monthlyRate, n) - 1)));
+            const totalPayment = monthlyPayment * n;
+            
+            return Math.round(totalPayment * 100) / 100;
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.1.0/jasmine.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.1.0/jasmine-html.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.1.0/boot.js"></script>
+
+    <script>
+        describe("Домашнее задание к занятию 1. «Основные понятия»", function() {
+            
+            describe("Задача №2. Функция должна:", function() {
+                
+                it("верно считать кредит: кейс #1", function() {
+                    expect(calculateTotalMortgage(10, 0, 50000, 12)).toBe(52749.53);
+                });
+                
+                it("верно считать кредит: кейс #2", function() {
+                    expect(calculateTotalMortgage(10, 1000, 50000, 12)).toBe(51694.54);
+                });
+                
+                it("верно считать кредит: кейс #3", function() {
+                    expect(calculateTotalMortgage(10, 0, 20000, 24)).toBe(22149.56);
+                });
+                
+                it("верно считать кредит: кейс #4", function() {
+                    expect(calculateTotalMortgage(10, 1000, 20000, 24)).toBe(21042.09);
+                });
+                
+                it("верно считать кредит: кейс #5", function() {
+                    expect(calculateTotalMortgage(10, 20000, 20000<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квадратные уравнения + Кредитный калькулятор (тесты)</title>
+    
+    <!-- Стили для квадратного уравнения -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        /* Карточки */
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .card h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        /* стили для квадратного уравнения */
+        .quadratic-inputs {
+            margin: 15px 0;
+        }
+        .quadratic-inputs input {
+            margin: 5px;
+            padding: 8px;
+            width: 80px;
+            font-size: 16px;
+        }
+        button {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 12px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        /* стили для тестов */
+        .jasmine_html-reporter {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .header p {
+            margin: 5px 0;
+        }
+    </style>
+    
+    <!-- Jasmine CSS (для тестов) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.1.0/jasmine.css">
+</head>
+<body>
+
+    <!-- ==================== БЛОК 1: РЕШЕНИЕ КВАДРАТНЫХ УРАВНЕНИЙ ==================== -->
+    <div class="card">
+        <h2>📐 Решение квадратного уравнения ax² + bx + c = 0</h2>
+        <div class="quadratic-inputs">
+            <input type="number" id="a" placeholder="a" step="any" value="1">
+            <span>x² + </span>
+            <input type="number" id="b" placeholder="b" step="any" value="-3">
+            <span>x + </span>
+            <input type="number" id="c" placeholder="c" step="any" value="2">
+            <span>= 0</span>
+        </div>
+        <br>
+        <button onclick="calculateQuadratic()">Решить уравнение</button>
+        <div class="result" id="resultQuadratic"></div>
+    </div>
+
+    <!-- ==================== БЛОК 2: ТЕСТЫ КРЕДИТНОГО КАЛЬКУЛЯТОРА (JASMINE) ==================== -->
+    <div class="card">
+        <div class="header">
+            <h2>🏦 Домашнее задание к лекции 1. «Основные понятия»</h2>
+            <p>Калькулятор ипотеки — <strong>8 тестов</strong> (результат ниже)</p>
+        </div>
+    </div>
+
+    <!-- Скрипты для решения квадратного уравнения -->
+    <script>
+        // Функция solveEquation – возвращает массив корней квадратного уравнения
+        function solveEquation(a, b, c) {
+            // Преобразуем к числам с плавающей точкой (на случай, если пришли строки)
+            a = parseFloat(a);
+            b = parseFloat(b);
+            c = parseFloat(c);
+            
+            // Проверка на валидность чисел
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                return [];
+            }
+            
+            // Если a == 0 – уравнение становится линейным или вырожденным
+            if (a === 0) {
+                if (b === 0) {
+                    // нет переменной: c == 0 ? бесконечно решений : нет корней
+                    return (c === 0) ? [] : []; // условно – пустой массив (нет корней)
+                } else {
+                    // bx + c = 0 -> x = -c/b
+                    const root = -c / b;
+                    return [root];
+                }
+            }
+            
+            const discriminant = b * b - 4 * a * c;
+            
+            if (discriminant < 0) {
+                return [];  // нет действительных корней
+            }
+            if (discriminant === 0) {
+                const root = -b / (2 * a);
+                return [root];
+            }
+            // два корня
+            const sqrtD = Math.sqrt(discriminant);
+            const root1 = (-b + sqrtD) / (2 * a);
+            const root2 = (-b - sqrtD) / (2 * a);
+            // Сортируем для красивого вывода (необязательно)
+            return [root1, root2];
+        }
+
+        // Функция для отображения результата
+        function calculateQuadratic() {
+            const a = document.getElementById('a').value;
+            const b = document.getElementById('b').value;
+            const c = document.getElementById('c').value;
+            
+            const roots = solveEquation(a, b, c);
+            const resultDiv = document.getElementById('resultQuadratic');
+            
+            if (roots.length === 0) {
+                resultDiv.innerHTML = "❌ Корней нет (дискриминант отрицательный или уравнение не имеет решений)";
+            } else if (roots.length === 1) {
+                resultDiv.innerHTML = `✅ Один корень: x = ${roots[0].toFixed(6)}`;
+            } else {
+                // Два корня – форматируем, чтобы было красиво
+                const r1 = roots[0].toFixed(6);
+                const r2 = roots[1].toFixed(6);
+                resultDiv.innerHTML = `✅ Два корня: x₁ = ${r1}, x₂ = ${r2}`;
+            }
+        }
+        
+        // Вызов при загрузке страницы для примера (уже есть значения по умолчанию)
+        window.addEventListener('DOMContentLoaded', () => {
+            calculateQuadratic();
+        });
+    </script>
+
+    <!-- Кредитный калькулятор (функция для тестов) -->
+    <script>
+        function calculateTotalMortgage(percent, contribution, amount, countMonths) {
+            const p = parseFloat(percent);
+            const c = parseFloat(contribution);
+            const a = parseFloat(amount);
+            const n = parseFloat(countMonths);
+            
+            if (isNaN(p) || isNaN(c) || isNaN(a) || isNaN(n)) {
+                return false;
+            }
+            
+            const loanBody = a - c;
+            if (loanBody <= 0) return 0;
+            
+            const monthlyRate = p / 100 / 12;
+            const monthlyPayment = loanBody * (monthlyRate + (monthlyRate / (Math.pow(1 + monthlyRate, n) - 1)));
+            const totalPayment = monthlyPayment * n;
+            
+            return Math.round(totalPayment * 100) / 100;
+        }
+    </script>
+
+    <!-- Подключаем Jasmine и запускаем тесты -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.1.0/jasmine.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.1.0/jasmine-html.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasmine/3.1.0/boot.js"></script>
+
+    <script>
+        describe("Домашнее задание к занятию 1. «Основные понятия»", function() {
+            
+            describe("Задача №2. Функция calculateTotalMortgage должна:", function() {
+                
+                it("верно считать кредит: кейс #1", function() {
+                    expect(calculateTotalMortgage(10, 0, 50000, 12)).toBe(52749.53);
+                });
+                
+                it("верно считать кредит: кейс #2", function() {
+                    expect(calculateTotalMortgage(10, 1000, 50000, 12)).toBe(51694.54);
+                });
+                
+                it("верно считать кредит: кейс #3", function() {
+                    expect(calculateTotalMortgage(10, 0, 20000, 24)).toBe(22149.56);
+                });
+                
+                it("верно считать кредит: кейс #4", function() {
+                    expect(calculateTotalMortgage(10, 1000, 20000, 24)).toBe(21042.09);
+                });
+                
+                it("верно считать кредит: кейс #5", function() {
+                    expect(calculateTotalMortgage(10, 20000, 20000, 24)).toBe(0);
+                });
+                
+                it("верно считать кредит: кейс #6", function() {
+                    expect(calculateTotalMortgage(10, 0, 10000, 36)).toBe(11616.19);
+                });
+                
+                it("верно считать кредит: кейс #7", function() {
+                    expect(calculateTotalMortgage(15, 0, 10000, 36)).toBe(12479.52);
+                });
+                
+                it("должна вернуть false при нечисловых значениях", function() {
+                    expect(calculateTotalMortgage("abc", 0, 50000, 12)).toBe(false);
+                });
+            });
+        });
+        
+        // Принудительный запуск отображения результатов Jasmine (после загрузки всех скриптов)
+        (function() {
+            window.addEventListener('load', function() {
+                // отрисовка HTML-репортера Jasmine
+                var jasmineEnv = jasmine.getEnv();
+                jasmineEnv.execute();
+            });
+        })();
+    </script>
+</body>
+</html>, 24)).toBe(0);
+                });
+                
+                it("верно считать кредит: кейс #6", function() {
+                    expect(calculateTotalMortgage(10, 0, 10000, 36)).toBe(11616.19);
+                });
+                
+                it("верно считать кредит: кейс #7", function() {
+                    expect(calculateTotalMortgage(15, 0, 10000, 36)).toBe(12479.52);
+                });
+                
+                it("должна вернуть false при нечисловых значениях", function() {
+                    expect(calculateTotalMortgage("abc", 0, 50000, 12)).toBe(false);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
